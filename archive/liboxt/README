@@ -1,0 +1,12 @@
+oxt - Open X Toolkit
+	0.1
+
+oxt is a toolkit library for the X Window system written entirely in C
+with the help of some black magic and a lot of coke.oxt was born from
+its previous versions also known as purelib (i found another library
+under that name so i changed it) and billie (base interface library
+with light interactive extensions).
+as you can see the library is in beginning stage so don't expect much.
+for comments and/or suggestions write to my email address, they're welcome
+
+vladimir ganchev

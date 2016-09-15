@@ -1,0 +1,65 @@
+#include "oxt_main.h"
+#include "oxt_widget.h"
+#include "oxt_pixmap.h"
+#include "oxt_internal.h"
+#include <X11/extensions/shape.h>
+using namespace std;
+
+void oxt_pixmap::expose() {
+  XCopyArea(display, pixmap, win, gc, 0, 0, w, h, 0, 0);
+}
+
+void oxt_pixmap::destroy() {
+  delete_widget(this);
+}
+
+oxt_pixmap::oxt_pixmap(char *file) {
+  cout << app_basename << ": create pixmap from file requested\n";
+}
+
+oxt_pixmap::oxt_pixmap(char **xpm) {
+  label = xpm[0];
+  parent = rootwindow;
+  x = y = 0;
+
+  int c, p;
+  sscanf(xpm[0], "%d %d %d %d", &w, &h, &c, &p);
+
+  win = XCreateSimpleWindow(display, parent, x, y, w, h, 0, standard, standard);
+  pixmap = XCreatePixmap(display, win, w, h, depth);
+  gc = XCreateGC(display, pixmap, 0, 0);
+
+  int i, j, color[65535];
+  char s, pixel, name[64];
+
+#ifdef DEBUG
+  cout << app_basename << ": pixmap: width: " << w << ", height: " <<
+		h << ", colors: " << c << ", packet format: " << p << endl;
+#endif
+
+  for (i=0; i<c; i++) {
+    sscanf(xpm[i+1], "%c %c %s", &pixel, &s, name);
+    color[pixel] = (!strcmp(name, "None")) ? -1 : (int)oxt_color(name);
+  }
+
+  if (p == 1) for (i=0; i<w; i++)
+    for (j=0; j<h; j++) {
+      XSetForeground(display, gc, color[xpm[c+1+j][i]]);
+      XDrawPoint(display, pixmap, gc, i, j);
+    }
+  else {
+#ifdef DEBUG
+    cout << app_basename << ": packet format " << p << " is not supported\n";
+#endif
+    XSetForeground(display, gc, black);
+    XFillRectangle(display, pixmap, gc, 0, 0, w, h);
+  }
+
+  XSetWindowAttributes a;
+  a.override_redirect = True;
+  XChangeWindowAttributes(display, win, CWOverrideRedirect, &a);
+
+  XSelectInput(display, win, ExposureMask);
+
+  register_widget(this);
+}

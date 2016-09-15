@@ -1,0 +1,27 @@
+README for libsync
+vladimir ganchev
+
+function overview
+
+int inet_open(char *, int);
+ char *: address
+ int: port
+description: opens tcp/ip connection.address can be a hostname or IP.
+returns the descriptor on success.on error -1 is returned
+
+void add_fd(int, void (*)(int));
+ int: file descriptor
+ void (*)(int): function
+description: calls function when data arrives on the
+ file descriptor passing the descriptor as argument
+
+void set_timer(int, int, void (*)(int));
+ int: timer id
+ int: miliseconds
+ void(*)(int): function
+description: calls function when the timer expires
+ passing the timer id as argument.
+
+void kill_timer(int);
+ int: timer id
+description: removes timer

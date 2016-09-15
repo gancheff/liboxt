@@ -1,0 +1,34 @@
+oxt2 - open X toolkit -- second release
+	version 0.2
+
+this is oxt2.a graphical toolkit based on Xlib.
+
+everything can be explained in the sources, this work is
+far from being complete so don't bug me about the lack of
+documentation
+
+installing oxt is easy.there're no autoconfs and automakes
+so you'll have to edit Makefile to make a configuration for
+*YOUR* system.when done type:
+make
+and if there're no errors, try this as root:
+make install
+this will install the library in /usr/local.you can specify
+another directory by editing the PREFIX macro in Makefile
+
+currently supported widgets:
+	window - class oxt_window
+	box - class oxt_box
+	label - class oxt_label
+	pixmap - class oxt_pixmap
+	button - class oxt_button
+	progress bar - class oxt_progress
+
+oxt now supports asynchronous file handling and timers.look at
+oxt_util.cc for more information
+
+sample sources are provided in ./examples/
+they should be ehough to get you started
+
+if you have fresh ideas and *think* that you could
+be a part of the project - you know what to do

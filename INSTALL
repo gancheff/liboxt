@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# installation script
+# vladimir ganchev
+
+if [ $1 ]; then
+#  [ ! -d ${2}/include ] && mkdir ${2}/include
+#  [ ! -d ${2}/include/oxt ] && mkdir ${2}/include/oxt
+  [ ! -d ${2}/lib ] && mkdir ${2}/lib
+#  [ -d ${2}/include/oxt ] && cp -f *.h ${2}/include/oxt
+  [ -d ${2}/lib ] && [ -f ${1}.so ] && [ -f ${1}.a ] && cp -f ${1}.so ${1}.a ${2}/lib
+else
+  echo "no prefix"
+fi
